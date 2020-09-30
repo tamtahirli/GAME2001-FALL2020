@@ -5,6 +5,17 @@
 template<class T>
 class UnorderedArray : public Array<T> {
 public:
+	// Constructor
+	UnorderedArray(int size, int growBy = 1) : Array<T>(size, growBy)
+	{
+
+	}
+
+	// Destructor
+	~UnorderedArray()
+	{
+
+	}
 	// Insertions
 	// Fast insertion for UnorderedArray -- Big-O is O(1)
 	void push(T val)

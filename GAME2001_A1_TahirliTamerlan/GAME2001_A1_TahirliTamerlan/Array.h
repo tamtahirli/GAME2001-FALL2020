@@ -84,14 +84,14 @@ protected:
 	int m_maxSize;		// Maximum size of my array
 	int m_growSize;		// Amount the array can grow through expansion
 	int m_numElements;	// Number of items currently in my array
-private:
-	// Functions
 	bool Expand()
 	{
 		if (m_growSize <= 0)
 			return false;
 		// Create the new array
-		T* temp = new T[m_maxSize + m_growSize];
+		//std::cout << "Current size: " << m_maxSize << " Grow: " << m_maxSize << "\n";
+		m_growSize = m_maxSize * 2;
+		T* temp = new T[m_growSize];
 		assert(temp != NULL);
 		memcpy(temp, m_array, sizeof(T) * m_maxSize);
 		delete[] m_array;
@@ -99,7 +99,8 @@ private:
 		m_array = temp;
 		temp = NULL;
 
-		m_maxSize += m_growSize;
+		m_maxSize = m_growSize;
+		//std::cout << "Expanded to " << m_maxSize << "\n";
 		return true;
 	}
 };

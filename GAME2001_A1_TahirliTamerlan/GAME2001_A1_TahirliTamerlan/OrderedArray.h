@@ -8,47 +8,46 @@ class OrderedArray : public Array<T>
 public:
 
 	// Constructor
-	OrderedArray(int size, int growBy = 1) :
-		m_array(NULL), m_maxSize(0), m_growSize(0), m_numElements(0)
+	OrderedArray(int size, int growBy = 1) : Array<T>(size, growBy)
 	{
-		if (size)
-		{
-			this->m_maxSize = size;
-			this->m_array = new T[this->m_maxSize]; // Dynamically allocating an array to m_maxSize
-			memset(this->m_array, 0, sizeof(T) * this->m_maxSize); // Explicitly allocating memory based on the type T
 
-			this->m_growSize = ((growBy > 0) ? growBy : 0);
-		}
 	}
 
 	// Destructor
 	~OrderedArray()
 	{
-		if (this->m_array != NULL)
-		{
-			delete[] this->m_array;
-			this->m_array = NULL;
-		}
+
 	}
+
 	// Insertion - Big O = O(N)
 	int push(T val)
 	{
 		assert(this->m_array != NULL);	// Debugging purposes
-		if (this->m_numElements >= this->m_maxSize)
-		{
-			this->Expand();
-		}
+
 		int i, k;
 		for (i = 0; i < this->m_numElements; i++)
 		{
+			if (this->m_array[i] == val)
+			{
+				//std::cout << "Found duplicate value. Returning." << "\n";
+				return -1;
+			}
+
 			if (this->m_array[i] > val)
 				break;
+		}
+
+		// Moved this to only expand after not having duplicate array value
+		if (this->m_numElements >= this->m_maxSize)
+		{
+			this->Expand();
 		}
 
 		for (k = this->m_numElements; k > i; k--)
 		{
 			this->m_array[k] = this->m_array[k-1];
 		}
+
 		this->m_array[i] = val;
 		this->m_numElements++;
 		return i;
